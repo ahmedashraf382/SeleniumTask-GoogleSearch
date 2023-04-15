@@ -11,7 +11,6 @@ To run this project, you will need to have the following software installed on y
 
 Java (version 8 or later)
 Maven (version 3 or later)
-Chrome browser (version 89 or later)
 Getting started
 # To get started with this project, follow these steps:
 
