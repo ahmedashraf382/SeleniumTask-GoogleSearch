@@ -1,6 +1,7 @@
 package Pages;
 
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -30,5 +31,11 @@ protected static void ClickButton(WebElement Clickbutton) {
 	
 	Clickbutton.click();
 }
+protected static void scrolldown(WebDriver driver) {
+	JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollBy(0, document.body.scrollHeight)");
+	
+}
+
 
 }

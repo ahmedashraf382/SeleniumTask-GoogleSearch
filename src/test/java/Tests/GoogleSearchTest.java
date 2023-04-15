@@ -11,33 +11,43 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
-import org.openqa.selenium.JavascriptExecutor;
+
 import org.testng.Assert;
 import Pages.GoogleHomePage;
 
 
 public class GoogleSearchTest extends TestBase {
 	GoogleHomePage googlehomepageobj ;
-	List<String> resultList = new ArrayList();
+	List<String> resultList ;
+	boolean isArabicLanguage = false ;
 @Test	
 public void testgooglesearch() throws InterruptedException, UnsupportedEncodingException {
 	googlehomepageobj = new GoogleHomePage(driver);
-
+	if(googlehomepageobj.isGoogleArabicLanguage(driver)) {
+		isArabicLanguage = true;
+	}
+	
 	googlehomepageobj.enterkeyword("food");
 	googlehomepageobj.enteranotherkeyword("drink");
-	//Assert.assertTrue(googlehomepageobj.getSearchResults().contains("حوالى"));
+	
+	if(isArabicLanguage == true) {
 	Assertions.assertThat((googlehomepageobj.getSearchResults().split("حوالى ")[1].split(" ")[0])).matches("\\d.*").isNotBlank().isNotNull();
+	}
+	else {
+		Assertions.assertThat((googlehomepageobj.getSearchResults().split("About ")[1].split(" ")[0])).matches("\\d.*").isNotBlank().isNotNull();
+
+	}
+	googlehomepageobj.scrollDown(driver);
 	
-	
-	JavascriptExecutor js = (JavascriptExecutor) driver;
-	js.executeScript("window.scrollBy(0, document.body.scrollHeight)");
 	googlehomepageobj.nextpage();
 	
 	 String searchResultsPage2 = googlehomepageobj.getSearchResults();
      googlehomepageobj.nextpage();
      String searchResultsPage3 = googlehomepageobj.getSearchResults();
-     Assert.assertEquals(getPeProcessingResultSearch(searchResultsPage2), getPeProcessingResultSearch(searchResultsPage3));
+     Assert.assertEquals(googlehomepageobj.getPeProcessingResultSearch(searchResultsPage2,isArabicLanguage),
+    		 googlehomepageobj.getPeProcessingResultSearch(searchResultsPage3,isArabicLanguage));
 	for(int i=0;i<googlehomepageobj.getSuggestionsResult().size();i++) {
+		resultList = new ArrayList<>();
 		resultList.add(googlehomepageobj.getSuggestionsResult().get(i).getText());
 		}
      
@@ -57,8 +67,8 @@ Assert.assertFalse(isRepeatedFlag);
 	
 }
 
-public String getPeProcessingResultSearch(String result) {
-	return result.split("حوالي ")[1].split(" ")[0];
+
+	
 }
 
-}
+

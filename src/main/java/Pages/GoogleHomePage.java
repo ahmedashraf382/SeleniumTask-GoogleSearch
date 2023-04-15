@@ -67,4 +67,23 @@ public class GoogleHomePage extends PageBase {
 		 return suggestionsContainer.findElements(By.tagName("b"));
 		 
 	 }
+	 public void scrollDown (WebDriver driver) {
+		 scrolldown(driver);
+	 }
+	 
+	
+	public boolean isGoogleArabicLanguage(WebDriver driver) {
+		return driver.findElements(By.xpath("//span[contains(text(),'تسجيل الدخول')]")).size() !=0;
+		
+		
+	}
+	
+	public String getPeProcessingResultSearch(String result, boolean isArabicLanguage) {
+		if(isArabicLanguage == true) {
+			return result.split("حوالي ")[1].split(" ")[0];
+		}
+		else {
+			return result.split("About ")[1].split(" ")[0];
+		}
+	}
 }
